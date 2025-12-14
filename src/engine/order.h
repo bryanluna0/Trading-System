@@ -7,13 +7,13 @@
 #include <cstdint>
 #include <string>
 
-enum side
+enum Side
 {
 	SELL,
 	BUY
 };
 
-enum order_type
+enum OrderType 
 {
 	LIMIT,
 	MARKET,
@@ -21,13 +21,13 @@ enum order_type
 	FOK
 };
 
-struct order
+struct Order
 {
 	std::string symbol;
 	unint64_t order_id;
 	int64_t price;	
 	int64_t quantity;
 	int64_t timestamp;	
-	order_type order_type;
-	side side;
+	OrderType order_type;
+	Side side;
 };
