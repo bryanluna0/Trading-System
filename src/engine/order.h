@@ -30,4 +30,6 @@ struct Order
 	int64_t timestamp;	
 	OrderType order_type;
 	Side side;
+
+	std::bool is_valid() const noexcept;
 };
