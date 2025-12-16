@@ -7,5 +7,5 @@
 
 std::bool Order::is_valid() const noexcept
 {
-	// TODO: check that the member variables of order are valid
+	return order_id >= 0 && price > 0 && quantity > 0 && timestamp >= 0;
 }
