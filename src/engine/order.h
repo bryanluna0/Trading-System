@@ -7,13 +7,13 @@
 #include <cstdint>
 #include <string>
 
-enum Side
+enum class Side : uint8_t
 {
 	SELL,
 	BUY
 };
 
-enum OrderType 
+enum class OrderType : uint8_t 
 {
 	LIMIT,
 	MARKET,
