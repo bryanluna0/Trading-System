@@ -35,7 +35,7 @@ enum class OrderType : uint8_t
 
 struct Order
 {
-	std::string symbol;
+//	std::string symbol;
 	OrderId order_id;
 	int64_t price;	
 	int64_t quantity;
