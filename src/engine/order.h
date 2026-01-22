@@ -17,7 +17,7 @@ struct OrderId
 	{
 		return a.value == b.value;
 	}
-}
+};
 
 enum class Side : uint8_t
 {
