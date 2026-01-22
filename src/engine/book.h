@@ -18,7 +18,7 @@ stuct SymbolId
 {
 	uint64_t value;
 
-	explicit SymbolId(uint64_t v) : value(v) {}
+	explicit SymbolId(uint64_t v) noexcept : value(v) {}
 
 	bool operator==(const SymbolId& other) const
 	{
@@ -29,7 +29,7 @@ stuct SymbolId
 	{
 		return this.value != other.value;
 	}
-}
+};
 
 class OrderBook
 {
@@ -39,6 +39,7 @@ class OrderBook
 		std::map<int64_t price, std::unique_ptr<PriceLevel>, std::less<>> asks;
 
 	public:
-		explicit OrderBook(SymbolId s) noexcept : symbol(s) {} 
-}
+		explicit OrderBook(SymbolId s) noexcept;
 
+		SymbolId getSymbol() const;
+};
