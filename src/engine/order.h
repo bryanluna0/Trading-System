@@ -13,7 +13,7 @@ struct OrderId
 	
 	explicit constexpr OrderId(uint64_t v) noexcept : value(v) {}
 	
-	friend bool operator==(OrderId a, OrderId b) noexcept
+	friend bool operator==(OrderId a, OrderId b) const noexcept
 	{
 		return a.value == b.value;
 	}
