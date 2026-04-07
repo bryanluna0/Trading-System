@@ -2,6 +2,9 @@
 	book.h file for the orderbook specification
 */
 
+#ifndef BOOK_H
+#define BOOK_H
+
 #include <deque>
 #include <functional>
 #include <map>
@@ -14,20 +17,20 @@ struct PriceLevel
 	std::deque<Order*> orders;	
 };
 
-stuct SymbolId
+struct SymbolId
 {
 	uint64_t value;
 
 	explicit SymbolId(uint64_t v) noexcept : value(v) {}
 
-	bool operator==(const SymbolId& other) const
+	bool operator==(const SymbolId& other) const noexcept
 	{
-		return this.value == other.value;
+		return value == other.value;
 	}
 	
-	bool operator!=(const SymbolId& other) const
+	bool operator!=(const SymbolId& other) const noexcept
 	{
-		return this.value != other.value;
+		return value != other.value;
 	}
 };
 
@@ -35,11 +38,15 @@ class OrderBook
 {
 	private:
 		SymbolId symbol;
-		std::map<int64_t price, std::unique_ptr<PriceLevel>, std::greater<>> bids;
-		std::map<int64_t price, std::unique_ptr<PriceLevel>, std::less<>> asks;
+		std::map<int64_t, std::unique_ptr<PriceLevel>, std::greater<int64_t>> bids;
+		std::map<int64_t, std::unique_ptr<PriceLevel>, std::less<int64_t>> asks;
 
 	public:
 		explicit OrderBook(SymbolId s) noexcept;
 
-		SymbolId getSymbol() const;
+		SymbolId getSymbol() const noexcept;
+
+		void addOrder(Order& order) noexcept;
 };
+
+#endif // BOOK_H

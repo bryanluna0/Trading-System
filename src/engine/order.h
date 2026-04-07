@@ -3,7 +3,9 @@
 
 */
 
-#include <bool>
+#ifndef ORDER_H
+#define ORDER_H
+
 #include <cstdint>
 #include <string>
 
@@ -13,7 +15,7 @@ struct OrderId
 	
 	explicit constexpr OrderId(uint64_t v) noexcept : value(v) {}
 	
-	friend bool operator==(OrderId a, OrderId b) const noexcept
+	friend bool operator==(OrderId a, OrderId b) noexcept
 	{
 		return a.value == b.value;
 	}
@@ -43,5 +45,7 @@ struct Order
 	OrderType order_type;
 	Side side;
 
-	std::bool is_valid() const noexcept;
+	bool is_valid() const noexcept;
 };
+
+#endif // ORDER_H
