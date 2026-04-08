@@ -1,0 +1,5 @@
+add_library(types INTERFACE)
+add_library(engine STATIC engine/order/order.cpp engine/book/book.cpp)
+target_include_directories(engine PUBLIC .)
+target_include_directories(types INTERFACE .)
+target_link_libraries(engine PUBLIC types)
