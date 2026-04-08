@@ -6,34 +6,9 @@
 #ifndef ORDER_H
 #define ORDER_H
 
-#include <cstdint>
 #include <string>
 
-struct OrderId 
-{
-	uint64_t value;
-	
-	explicit constexpr OrderId(uint64_t v) noexcept : value(v) {}
-	
-	friend bool operator==(OrderId a, OrderId b) noexcept
-	{
-		return a.value == b.value;
-	}
-};
-
-enum class Side : uint8_t
-{
-	SELL,
-	BUY
-};
-
-enum class OrderType : uint8_t 
-{
-	LIMIT,
-	MARKET,
-	IOC,
-	FOK
-};
+#include "../types/types.h"
 
 struct Order
 {

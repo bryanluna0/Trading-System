@@ -9,29 +9,15 @@
 #include <functional>
 #include <map>
 #include <memory>
+
+#include "../types/types.h"
 #include "order.h"
 
+// stores a deque of orders at a given price point
 struct PriceLevel
 {
 	int64_t price;
 	std::deque<Order*> orders;	
-};
-
-struct SymbolId
-{
-	uint64_t value;
-
-	explicit SymbolId(uint64_t v) noexcept : value(v) {}
-
-	bool operator==(const SymbolId& other) const noexcept
-	{
-		return value == other.value;
-	}
-	
-	bool operator!=(const SymbolId& other) const noexcept
-	{
-		return value != other.value;
-	}
 };
 
 class OrderBook
