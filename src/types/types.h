@@ -3,6 +3,9 @@
 
 */
 
+#ifndef TYPES_H
+#define TYPES_H
+
 #include <cstdint>
 
 struct SymbolId
@@ -49,3 +52,5 @@ struct OrderId
 		return a.value == b.value;
 	}
 };
+
+#endif // TYPES_H

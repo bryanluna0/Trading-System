@@ -2,6 +2,7 @@
 	book.h file for the orderbook specification
 */
 
+#pragma once
 #ifndef BOOK_H
 #define BOOK_H
 
@@ -10,8 +11,8 @@
 #include <map>
 #include <memory>
 
-#include "../types/types.h"
-#include "order.h"
+#include "types/types.h"
+#include "engine/order/order.h"
 
 // stores a deque of orders at a given price point
 struct PriceLevel
