@@ -5,7 +5,7 @@
 
 #include "book.h"
 
-explicit OrderBook::OrderBook(SymbolId s) noexcept : symbol(s)
+OrderBook::OrderBook(SymbolId s) noexcept : symbol(s)
 {
 	
 }
