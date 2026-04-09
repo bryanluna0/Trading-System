@@ -9,6 +9,7 @@
 #include <deque>
 #include <functional>
 #include <map>
+#include <unordered_map>
 #include <memory>
 
 #include "types/types.h"
@@ -25,6 +26,8 @@ class OrderBook
 {
 	private:
 		SymbolId symbol;
+		
+		std::unordered_map<OrderId, Order> orders;
 		std::map<int64_t, std::unique_ptr<PriceLevel>, std::greater<int64_t>> bids;
 		std::map<int64_t, std::unique_ptr<PriceLevel>, std::less<int64_t>> asks;
 
