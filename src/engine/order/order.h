@@ -12,6 +12,7 @@
 
 struct Order
 {
+	SymbolId symbol_id;
 	OrderId order_id;
 	int64_t price;	
 	int64_t quantity;
