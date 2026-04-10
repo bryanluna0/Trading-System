@@ -18,6 +18,7 @@
 // stores a deque of orders at a given price point
 struct PriceLevel
 {
+	PriceLevel(int64_t price) : price(price) {}
 	int64_t price;
 	std::deque<Order*> orders;	
 };
@@ -26,8 +27,10 @@ class OrderBook
 {
 	private:
 		SymbolId symbol;
-		
+
 		std::unordered_map<OrderId, Order> orders;
+		
+		// key price 
 		std::map<int64_t, std::unique_ptr<PriceLevel>, std::greater<int64_t>> bids;
 		std::map<int64_t, std::unique_ptr<PriceLevel>, std::less<int64_t>> asks;
 
@@ -36,7 +39,7 @@ class OrderBook
 
 		SymbolId getSymbol() const noexcept;
 
-		void addOrder(Order& order) noexcept;
+		void addOrder(Order& order);
 };
 
 #endif // BOOK_H
