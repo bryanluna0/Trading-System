@@ -10,6 +10,7 @@
 
 #include "types/types.h"
 
+// TODO: ensure all variables are instantiated before they are used
 struct Order
 {
 	SymbolId symbol_id;

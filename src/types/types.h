@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+// TODO: Why is SymbolId different from OrderId?
+
 struct SymbolId
 {
 	uint64_t value;
