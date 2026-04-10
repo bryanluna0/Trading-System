@@ -45,7 +45,7 @@ void OrderBook::addOrder(const Order& order)
 	}
 }
 
-void OrderBook::cancelOrder(const OrderId order_id) noexcept
+void OrderBook::cancelOrder(const OrderId order_id) 
 {
 	// TODO: return error codes
 	if (!orders.contains(order_id))
@@ -56,6 +56,7 @@ void OrderBook::cancelOrder(const OrderId order_id) noexcept
 	Order* order = &(orders[order_id]);
 	// TODO: ensure that if orders has an order, so does the pricelevel 
 	// 		 might have desync between maps maybs 
+	// TODO: ensure we access element and do not add to map
 	// access deque of orders based on side
 	auto price_orders = (order->side == Side::SELL) ? &asks[order->price]->orders : &bids[order->price]->orders;
 	
@@ -63,7 +64,9 @@ void OrderBook::cancelOrder(const OrderId order_id) noexcept
 	// serach through deque for order
 	auto it = std::find_if(price_orders->begin(), price_orders->end(), [&](Order* price_order){ return price_order->order_id == order_id; });
 	if (it != price_orders->end())
+	{
 		price_orders->erase(it);
+	}
 	
 	if ((price_orders)->empty())
 	{

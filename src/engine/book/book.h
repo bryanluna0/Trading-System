@@ -40,7 +40,7 @@ class OrderBook
 		SymbolId getSymbol() const noexcept;
 
 		void addOrder(const Order& order);
-		void cancelOrder(const OrderId order_id) noexcept;
+		void cancelOrder(const OrderId order_id);
 };
 
 #endif // BOOK_H
