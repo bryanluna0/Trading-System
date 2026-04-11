@@ -44,6 +44,7 @@ class OrderBook
 		void addOrder(const Order& order);
 		void cancelOrder(const OrderId order_id);
 		void modifyQuantity(const OrderId OrderId, const int64_t new_quantity);
+		void modifyPrice(const OrderId order_id, const int64_t new_price);
 };
 
 #endif // BOOK_H

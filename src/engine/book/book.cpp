@@ -100,3 +100,56 @@ void OrderBook::modifyQuantity(const OrderId order_id, const int64_t new_quantit
 	orders[order_id].quantity = new_quantity;
 
 }
+
+void OrderBook::modifyPrice(const OrderId order_id, const int64_t new_price)
+{
+	if (!orders.contains(order_id))
+	{
+		return;
+	}
+
+	if (new_price <= 0)
+	{
+		return;
+	}
+
+	Order* order = &(orders[order_id]);
+
+	auto price_orders = (order->side == Side::SELL) ? &asks[order->price]->orders : &bids[order->price]->orders;
+	
+	// TODO: optimize order serach: currently O(n) 
+	// TODO: put this code into a helper function
+	// serach through deque for order
+	auto it = std::find_if(price_orders->begin(), price_orders->end(), [&](Order* price_order){ return price_order->order_id == order_id; });
+	if (it != price_orders->end())
+	{
+		price_orders->erase(it);
+	}
+
+	if ((price_orders)->empty())
+	{
+		// remove PriceLevel if there is no orders at that price 
+		(order->side == Side::SELL) ? asks.erase(asks.find(order->price)) : bids.erase(bids.find(order->price));
+	}
+
+	order->price = new_price;
+
+	// TODO: put this code into a helper function
+	if (order->side == Side::SELL)
+	{
+		if (!asks.contains(order->price))
+		{
+			asks[order->price] = std::make_unique<PriceLevel>(order->price);
+		}
+		asks[order->price]->orders.push_back(order);
+	}
+	else
+	{
+		if (!bids.contains(order->price))
+		{
+			bids[order->price] = std::make_unique<PriceLevel>(order->price);
+		}
+		bids[order->price]->orders.push_back(order);
+	}
+
+}
