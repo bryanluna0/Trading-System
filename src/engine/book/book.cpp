@@ -83,3 +83,20 @@ void OrderBook::cancelOrder(const OrderId order_id)
 	orders.erase(orders.find(order_id));
 
 }
+
+// TODO: add different behavior increasing vs decerasing quantity
+void OrderBook::modifyQuantity(const OrderId order_id, const int64_t new_quantity)
+{
+	if (!orders.contains(order_id))
+	{
+		return;
+	}
+
+	if (new_quantity <= 0)
+	{
+		return;
+	}
+
+	orders[order_id].quantity = new_quantity;
+
+}
