@@ -22,6 +22,7 @@ struct PriceLevel
 {
 	explicit PriceLevel(int64_t price) : price(price) {}
 	int64_t price;
+	// TODO: consider making this const Order*
 	std::deque<Order*> orders;	
 };
 
@@ -35,6 +36,10 @@ class OrderBook
 		// key price 
 		std::map<int64_t, std::unique_ptr<PriceLevel>, std::greater<int64_t>> bids;
 		std::map<int64_t, std::unique_ptr<PriceLevel>, std::less<int64_t>> asks;
+
+		// helper functions
+		void removeFromPriceLevel(Order* order);
+		void addToPriceLevel(Order* order);
 
 	public:
 		explicit OrderBook(SymbolId s) noexcept;

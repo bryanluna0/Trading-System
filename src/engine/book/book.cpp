@@ -18,7 +18,6 @@ SymbolId OrderBook::getSymbol() const noexcept
 	return symbol;
 }
 
-// TODO: limit number of orders, dont add order if order already in bool
 void OrderBook::addOrder(const Order& order) 
 {
 	if (orders.size() >= MAX_ORDERS)
@@ -27,29 +26,8 @@ void OrderBook::addOrder(const Order& order)
 	}
 
 	// add order to orders unordered_map
-	orders.emplace(order.order_id, order);
-
-
-	if (order.side == Side::SELL)
-	{
-		if (!asks.contains(order.price))
-		{
-			asks[order.price] = std::make_unique<PriceLevel>(order.price);
-		}
-		
-		// add order to PriceLevel deque
-		(asks[order.price])->orders.push_back(&orders[order.order_id]);
-	}
-	else
-	{
-		if (!bids.contains(order.price))
-		{
-			bids[order.price] = std::make_unique<PriceLevel>(order.price);
-		}
-
-		// add order to PriceLevel deque
-		(bids[order.price])->orders.push_back(&orders[order.order_id]);
-	}
+	if (orders.emplace(order.order_id, order).second)
+		addToPriceLevel(&orders[order.order_id]);
 }
 
 void OrderBook::cancelOrder(const OrderId order_id) 
@@ -65,23 +43,8 @@ void OrderBook::cancelOrder(const OrderId order_id)
 	// 		 might have desync between maps maybs 
 	// TODO: ensure we access element and do not add to map
 	// access deque of orders based on side
-	auto price_orders = (order->side == Side::SELL) ? &asks[order->price]->orders : &bids[order->price]->orders;
-	
-	// TODO: optimize order serach: currently O(n) 
-	// serach through deque for order
-	auto it = std::find_if(price_orders->begin(), price_orders->end(), [&](Order* price_order){ return price_order->order_id == order_id; });
-	if (it != price_orders->end())
-	{
-		price_orders->erase(it);
-	}
-	
-	if ((price_orders)->empty())
-	{
-		// remove PriceLevel if there is no orders at that price 
-		(order->side == Side::SELL) ? asks.erase(asks.find(order->price)) : bids.erase(bids.find(order->price));
-	}
+	removeFromPriceLevel(order);
 	orders.erase(orders.find(order_id));
-
 }
 
 // TODO: add different behavior increasing vs decerasing quantity
@@ -115,12 +78,19 @@ void OrderBook::modifyPrice(const OrderId order_id, const int64_t new_price)
 
 	Order* order = &(orders[order_id]);
 
+	removeFromPriceLevel(order);
+	order->price = new_price;
+	addToPriceLevel(order);
+}
+
+// helpers
+
+void OrderBook::removeFromPriceLevel(Order* order)
+{
 	auto price_orders = (order->side == Side::SELL) ? &asks[order->price]->orders : &bids[order->price]->orders;
-	
 	// TODO: optimize order serach: currently O(n) 
-	// TODO: put this code into a helper function
 	// serach through deque for order
-	auto it = std::find_if(price_orders->begin(), price_orders->end(), [&](Order* price_order){ return price_order->order_id == order_id; });
+	auto it = std::find_if(price_orders->begin(), price_orders->end(), [&](Order* price_order){ return price_order->order_id == order->order_id; });
 	if (it != price_orders->end())
 	{
 		price_orders->erase(it);
@@ -132,9 +102,10 @@ void OrderBook::modifyPrice(const OrderId order_id, const int64_t new_price)
 		(order->side == Side::SELL) ? asks.erase(asks.find(order->price)) : bids.erase(bids.find(order->price));
 	}
 
-	order->price = new_price;
+}
 
-	// TODO: put this code into a helper function
+void OrderBook::addToPriceLevel(Order* order)
+{
 	if (order->side == Side::SELL)
 	{
 		if (!asks.contains(order->price))
@@ -151,5 +122,4 @@ void OrderBook::modifyPrice(const OrderId order_id, const int64_t new_price)
 		}
 		bids[order->price]->orders.push_back(order);
 	}
-
 }
