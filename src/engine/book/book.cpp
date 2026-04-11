@@ -9,7 +9,8 @@
 
 OrderBook::OrderBook(SymbolId s) noexcept : symbol(s)
 {
-	orders.reserve(100000);
+	// TODO: be aware that this does not set a hard limit but addOrder does
+	orders.reserve(MAX_ORDERS);
 }
 
 SymbolId OrderBook::getSymbol() const noexcept
@@ -20,8 +21,14 @@ SymbolId OrderBook::getSymbol() const noexcept
 // TODO: limit number of orders, dont add order if order already in bool
 void OrderBook::addOrder(const Order& order) 
 {
+	if (orders.size() >= MAX_ORDERS)
+	{
+		return;
+	}
+
 	// add order to orders unordered_map
-	orders[order.order_id] = order;
+	orders.emplace(order.order_id, order);
+
 
 	if (order.side == Side::SELL)
 	{
