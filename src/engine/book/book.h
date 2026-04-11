@@ -15,10 +15,12 @@
 #include "types/types.h"
 #include "engine/order/order.h"
 
+const int64_t MAX_ORDERS = 100000;
+
 // stores a deque of orders at a given price point
 struct PriceLevel
 {
-	PriceLevel(int64_t price) : price(price) {}
+	explicit PriceLevel(int64_t price) : price(price) {}
 	int64_t price;
 	std::deque<Order*> orders;	
 };
