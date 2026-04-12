@@ -2,7 +2,6 @@
 	book.h file for the orderbook specification
 */
 
-#pragma once
 #ifndef BOOK_H
 #define BOOK_H
 
@@ -22,8 +21,7 @@ struct PriceLevel
 {
 	explicit PriceLevel(int64_t price) : price(price) {}
 	int64_t price;
-	// TODO: consider making this const Order*
-	std::deque<Order*> orders;	
+	std::deque<const Order*> orders;	
 };
 
 class OrderBook
@@ -38,8 +36,8 @@ class OrderBook
 		std::map<int64_t, std::unique_ptr<PriceLevel>, std::less<int64_t>> asks;
 
 		// helper functions
-		void removeFromPriceLevel(Order* order);
-		void addToPriceLevel(Order* order);
+		void removeFromPriceLevel(const Order* order);
+		void addToPriceLevel(const Order* order);
 
 	public:
 		explicit OrderBook(SymbolId s) noexcept;
@@ -48,7 +46,7 @@ class OrderBook
 
 		void addOrder(const Order& order);
 		void cancelOrder(const OrderId order_id);
-		void modifyQuantity(const OrderId OrderId, const int64_t new_quantity);
+		void modifyQuantity(const OrderId order_id, const int64_t new_quantity);
 		void modifyPrice(const OrderId order_id, const int64_t new_price);
 };
 
