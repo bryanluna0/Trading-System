@@ -55,4 +55,13 @@ struct OrderId
 	}
 };
 
+namespace std {
+    template<>
+    struct hash<OrderId> {
+        size_t operator()(const OrderId& id) const noexcept {
+            return hash<uint64_t>{}(id.value);
+        }
+    };
+}
+
 #endif // TYPES_H
