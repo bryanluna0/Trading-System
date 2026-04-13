@@ -31,7 +31,7 @@ public:
 	const OrderType order_type;
 	const Side side;
 
-	std::optional<Order> createOrder(SymbolId symbol_id, int64_t price, int64_t quantity, OrderType order_type, Side side);
+	static std::optional<Order> createOrder(SymbolId symbol_id, int64_t price, int64_t quantity, OrderType order_type, Side side);
 };
 
 #endif // ORDER_H
