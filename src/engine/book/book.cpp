@@ -27,7 +27,7 @@ void OrderBook::addOrder(const Order& order)
 
 	// add order to orders unordered_map
 	if (orders.emplace(order.order_id, order).second)
-		addToPriceLevel(&orders[order.order_id]);
+		addToPriceLevel(&orders.at(order.order_id));
 }
 
 void OrderBook::cancelOrder(const OrderId order_id) 
@@ -38,7 +38,7 @@ void OrderBook::cancelOrder(const OrderId order_id)
 		return;
 	}
 	
-	Order* order = &(orders[order_id]);
+	Order* order = &(orders.at(order_id));
 	// TODO: ensure that if orders has an order, so does the pricelevel 
 	// 		 might have desync between maps maybs 
 	// TODO: ensure we access element and do not add to map
@@ -60,7 +60,7 @@ void OrderBook::modifyQuantity(const OrderId order_id, const int64_t new_quantit
 		return;
 	}
 
-	orders[order_id].quantity = new_quantity;
+	orders.at(order_id).quantity = new_quantity;
 
 }
 
@@ -76,7 +76,7 @@ void OrderBook::modifyPrice(const OrderId order_id, const int64_t new_price)
 		return;
 	}
 
-	Order* order = &(orders[order_id]);
+	Order* order = &(orders.at(order_id));
 
 	removeFromPriceLevel(order);
 	order->price = new_price;
