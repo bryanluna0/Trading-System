@@ -28,3 +28,13 @@ std::optional<Order> Order::createOrder(SymbolId symbol_id, int64_t price, int64
 
 	return Order(symbol_id, price, quantity, order_type, side);
 }
+
+int64_t Order::getPrice() const
+{
+	return price;
+}
+
+int64_t Order::getQuantity() const
+{
+	return quantity;
+}

@@ -32,6 +32,9 @@ public:
 	const Side side;
 
 	static std::optional<Order> createOrder(SymbolId symbol_id, int64_t price, int64_t quantity, OrderType order_type, Side side);
+
+	int64_t getPrice() const;
+	int64_t getQuantity() const;
 };
 
 #endif // ORDER_H
