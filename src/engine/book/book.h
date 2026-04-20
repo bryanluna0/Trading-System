@@ -27,8 +27,6 @@ struct PriceLevel
 class OrderBook
 {
 	private:
-		SymbolId symbol;
-
 		std::unordered_map<OrderId, Order> orders;
 		
 		// key price 
@@ -40,9 +38,9 @@ class OrderBook
 		void addToPriceLevel(const Order* order);
 
 	public:
-		explicit OrderBook(SymbolId s) noexcept;
+		const SymbolId symbol;
 
-		SymbolId getSymbol() const noexcept;
+		explicit OrderBook(SymbolId s) noexcept;
 
 		void addOrder(const Order& order);
 		void cancelOrder(const OrderId order_id);
