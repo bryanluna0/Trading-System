@@ -46,6 +46,10 @@ class OrderBook
 		void cancelOrder(const OrderId order_id);
 		void modifyQuantity(const OrderId order_id, const int64_t new_quantity);
 		void modifyPrice(const OrderId order_id, const int64_t new_price);
+
+		size_t getOrderCount() const noexcept;
+		std::optional<const PriceLevel*> getBestBid() const;
+		std::optional<const PriceLevel*> getBestAsk() const;
 };
 
 #endif // BOOK_H

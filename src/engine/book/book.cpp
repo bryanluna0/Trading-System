@@ -13,11 +13,6 @@ OrderBook::OrderBook(SymbolId s) noexcept : symbol(s)
 	orders.reserve(MAX_ORDERS);
 }
 
-SymbolId OrderBook::getSymbol() const noexcept
-{
-	return symbol;
-}
-
 void OrderBook::addOrder(const Order& order) 
 {
 	if (orders.size() >= MAX_ORDERS)
@@ -122,4 +117,30 @@ void OrderBook::addToPriceLevel(const Order* order)
 		}
 		bids[order->price]->orders.push_back(order);
 	}
+}
+
+size_t OrderBook::getOrderCount() const noexcept
+{
+	return orders.size();
+}
+
+std::optional<const PriceLevel*> OrderBook::getBestBid() const
+{
+	// add error code based on error
+	if (bids.size() < 1)
+	{
+		return {};
+	}
+
+	return &(*bids.begin()->second);
+}
+
+std::optional<const PriceLevel*> OrderBook::getBestAsk() const
+{
+	if (asks.size() < 1)
+	{
+		return {};
+	}
+
+	return &(*asks.begin()->second);
 }
