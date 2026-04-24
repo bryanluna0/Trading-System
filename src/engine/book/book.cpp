@@ -15,6 +15,7 @@ OrderBook::OrderBook(SymbolId s) noexcept : symbol(s)
 
 void OrderBook::addOrder(const Order& order) 
 {
+	// TODO: ensure we only add LIMIT orders
 	if (orders.size() >= MAX_ORDERS)
 	{
 		return;
@@ -122,6 +123,16 @@ void OrderBook::addToPriceLevel(const Order* order)
 size_t OrderBook::getOrderCount() const noexcept
 {
 	return orders.size();
+}
+
+size_t OrderBook::getBidCount() const noexcept
+{
+	return bids.size();
+}
+
+size_t OrderBook::getAskCount() const noexcept
+{
+	return asks.size();
 }
 
 std::optional<const PriceLevel*> OrderBook::getBestBid() const

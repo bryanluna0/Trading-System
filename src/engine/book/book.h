@@ -48,7 +48,9 @@ class OrderBook
 		void modifyPrice(const OrderId order_id, const int64_t new_price);
 
 		size_t getOrderCount() const noexcept;
-		std::optional<const PriceLevel*> getBestBid() const;
+		size_t getBidCount() const noexcept;
+		size_t getAskCount() const noexcept;
+ 		std::optional<const PriceLevel*> getBestBid() const;
 		std::optional<const PriceLevel*> getBestAsk() const;
 };
 
