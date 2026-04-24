@@ -30,7 +30,9 @@ class OrderBook
 		std::unordered_map<OrderId, Order> orders;
 		
 		// key price 
+		// buy orders go here
 		std::map<int64_t, std::unique_ptr<PriceLevel>, std::greater<int64_t>> bids;
+		// sell orders go here
 		std::map<int64_t, std::unique_ptr<PriceLevel>, std::less<int64_t>> asks;
 
 		// helper functions
