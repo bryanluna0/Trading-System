@@ -21,7 +21,7 @@ private:
 	int64_t price;	
 	int64_t quantity;
 
-	static std::atomic<uint64_t	> next_id;
+	static std::atomic<uint64_t> next_id;
 	
 	Order(SymbolId symbol_id, int64_t price, int64_t quantity, OrderType order_type, Side side);
 public:
