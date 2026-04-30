@@ -8,6 +8,20 @@
 
 #include <cstdint>
 
+enum class OrderResult
+{
+	ADD_ORDER_FAIL,
+	BOOK_FULL,
+	CANCEL_ORDER_FAIL,
+	INVALID_ORDER_TYPE,
+	INVALID_PRICE,
+	INVALID_QUANTITY,
+	MODIFY_ORDER_FAIL,
+	ORDER_ALREADY_EXISTS,
+	ORDER_NOT_FOUND,
+	SUCCESS
+};
+
 // TODO: Why is SymbolId different from OrderId?
 
 struct SymbolId
