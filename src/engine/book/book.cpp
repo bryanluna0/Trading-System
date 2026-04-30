@@ -13,25 +13,35 @@ OrderBook::OrderBook(SymbolId s) noexcept : symbol(s)
 	orders.reserve(MAX_ORDERS);
 }
 
-void OrderBook::addOrder(const Order& order) 
+OrderResult OrderBook::addOrder(const Order& order) 
 {
-	// TODO: ensure we only add LIMIT orders
+	if (orders.contains(order.order_id))
+	{
+		return OrderResult::ORDER_ALREADY_EXISTS;
+	}
+
+	if (order.order_type != OrderType::LIMIT)
+	{
+		return OrderResult::INVALID_ORDER_TYPE;
+	}
+
 	if (orders.size() >= MAX_ORDERS)
 	{
-		return;
+		return OrderResult::BOOK_FULL;
 	}
 
 	// add order to orders unordered_map
-	if (orders.emplace(order.order_id, order).second)
-		addToPriceLevel(&orders.at(order.order_id));
+	orders.emplace(order.order_id, order);
+	addToPriceLevel(&orders.at(order.order_id));
+	return OrderResult::SUCCESS;
 }
 
-void OrderBook::cancelOrder(const OrderId order_id) 
+OrderResult OrderBook::cancelOrder(const OrderId order_id) 
 {
 	// TODO: return error codes
 	if (!orders.contains(order_id))
 	{
-		return;
+		return OrderResult::ORDER_NOT_FOUND;
 	}
 	
 	Order* order = &(orders.at(order_id));
@@ -41,35 +51,38 @@ void OrderBook::cancelOrder(const OrderId order_id)
 	// access deque of orders based on side
 	removeFromPriceLevel(order);
 	orders.erase(order_id);
+
+	return OrderResult::SUCCESS;
 }
 
 // TODO: add different behavior increasing vs decerasing quantity
-void OrderBook::modifyQuantity(const OrderId order_id, const int64_t new_quantity)
+OrderResult OrderBook::modifyQuantity(const OrderId order_id, const int64_t new_quantity)
 {
 	if (!orders.contains(order_id))
 	{
-		return;
+		return OrderResult::ORDER_NOT_FOUND;
 	}
 
 	if (new_quantity <= 0)
 	{
-		return;
+		return OrderResult::INVALID_QUANTITY;
 	}
 
 	orders.at(order_id).quantity = new_quantity;
 
+	return OrderResult::SUCCESS;
 }
 
-void OrderBook::modifyPrice(const OrderId order_id, const int64_t new_price)
+OrderResult OrderBook::modifyPrice(const OrderId order_id, const int64_t new_price)
 {
 	if (!orders.contains(order_id))
 	{
-		return;
+		return OrderResult::ORDER_NOT_FOUND;
 	}
 
 	if (new_price <= 0)
 	{
-		return;
+		return OrderResult::INVALID_PRICE;
 	}
 
 	Order* order = &(orders.at(order_id));
@@ -77,6 +90,8 @@ void OrderBook::modifyPrice(const OrderId order_id, const int64_t new_price)
 	removeFromPriceLevel(order);
 	order->price = new_price;
 	addToPriceLevel(order);
+
+	return OrderResult::SUCCESS;
 }
 
 // helpers

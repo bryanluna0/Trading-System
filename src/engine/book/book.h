@@ -44,10 +44,10 @@ class OrderBook
 
 		explicit OrderBook(SymbolId s) noexcept;
 
-		void addOrder(const Order& order);
-		void cancelOrder(const OrderId order_id);
-		void modifyQuantity(const OrderId order_id, const int64_t new_quantity);
-		void modifyPrice(const OrderId order_id, const int64_t new_price);
+		OrderResult addOrder(const Order& order);
+		OrderResult cancelOrder(const OrderId order_id);
+		OrderResult modifyQuantity(const OrderId order_id, const int64_t new_quantity);
+		OrderResult modifyPrice(const OrderId order_id, const int64_t new_price);
 
 		size_t getOrderCount() const noexcept;
 		size_t getBidCount() const noexcept;
