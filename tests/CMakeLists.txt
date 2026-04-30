@@ -1,6 +1,6 @@
 add_subdirectory(../third-party/googletest-main ../build/googletest-main)
 include(GoogleTest)
-add_executable(tests test_order.cpp)
+add_executable(tests test_order.cpp test_book.cpp)
 target_include_directories(tests PRIVATE ../src)
 target_link_libraries(tests engine gtest_main)
 gtest_discover_tests(tests)
